@@ -1,7 +1,11 @@
 import React from 'react';
+import { BrowserRouter } from 'react-router-dom';
+import Routes from './Routes';
 
-function App() {
-  return <div>Dog web</div>;
-}
+const App: React.FunctionComponent = () => (
+  <BrowserRouter>
+    <Routes />
+  </BrowserRouter>
+);
 
 export default App;

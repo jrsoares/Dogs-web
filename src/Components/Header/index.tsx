@@ -1,13 +1,19 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import { Container } from './styles';
+import { Container, Logo, Login } from './styles';
+import { ReactComponent as Dogs } from '../../Assets/dogs.svg';
+import { ReactComponent as Usuario } from '../../Assets/usuario.svg';
 
-const Header: React.FunctionComponent = () => {
+const Header: React.FC = () => {
   return (
     <Container>
       <nav>
-        <Link to="/">Home</Link>
-        <Link to="/login">Login / Criar</Link>
+        <Logo to="/" aria-label="Dogs - Home">
+          <Dogs />
+        </Logo>
+        <Login to="/login">
+          Login / Criar
+          <Usuario style={{ marginLeft: '0.5rem' }} />
+        </Login>
       </nav>
     </Container>
   );

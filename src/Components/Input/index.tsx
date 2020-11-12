@@ -1,5 +1,3 @@
-/* eslint-disable jsx-a11y/label-has-associated-control */
-/* eslint-disable react/prop-types */
 import React from 'react';
 
 import { Container, Label, Error } from './styles';
@@ -10,11 +8,17 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   label: string;
 }
 
-const Input: React.FC<InputProps> = ({ name, type, label }) => {
+const Input: React.FC<InputProps> = ({
+  name,
+  type,
+  label,
+  value,
+  onChange,
+}) => {
   return (
     <Container>
       <Label htmlFor={name}>{label}</Label>
-      <input type={type} name={name} />
+      <input type={type} name={name} value={value} onChange={onChange} />
       <Error>Error</Error>
     </Container>
   );

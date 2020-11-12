@@ -1,4 +1,3 @@
-/* eslint-disable react/button-has-type */
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Header from '../../Components/Header';
@@ -7,31 +6,30 @@ import { Container } from './styles';
 
 import Input from '../../Components/Input';
 import Button from '../../Components/Button';
+import useForm from '../../Hooks/useForm';
 
 const Login: React.FC = () => {
-  const [username, setUsername] = React.useState('');
-  const [password, setPassword] = React.useState('');
+  const username = useForm();
+  const password = useForm();
+  console.log(password.value);
 
-  const handleSubmit = React.useCallback(
-    event => {
-      event.preventDefault();
-      fetch('https://dogsapi.origamid.dev/json/jwt-auth/v1/token', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ username, password }),
+  const handleSubmit = React.useCallback(event => {
+    event.preventDefault();
+    fetch('https://dogsapi.origamid.dev/json/jwt-auth/v1/token', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      // body: JSON.stringify(),
+    })
+      .then(response => {
+        console.log(response);
+        return response.json();
       })
-        .then(response => {
-          console.log(response);
-          return response.json();
-        })
-        .then(json => {
-          console.log(json);
-        });
-    },
-    [username, password],
-  );
+      .then(json => {
+        console.log(json);
+      });
+  }, []);
 
   return (
     <>
@@ -39,8 +37,8 @@ const Login: React.FC = () => {
       <Container>
         <h1>Login</h1>
         <form action="" onSubmit={handleSubmit}>
-          <Input label="Usuário" type="text" name="username" />
-          <Input label="Password" type="password" name="password" />
+          <Input label="Usuário" type="text" name="username" {...username} />
+          <Input label="Senha" type="password" name="password" {...password} />
           <Button>Entrar</Button>
         </form>
         <Link to="/signup">Cadastro</Link>

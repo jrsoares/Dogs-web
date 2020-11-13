@@ -9,9 +9,7 @@ import Button from '../../Components/Button';
 import useForm from '../../Hooks/useForm';
 
 const Login: React.FC = () => {
-  const username = useForm();
-  const password = useForm();
-  console.log(password.value);
+  const username = useForm('email');
 
   const handleSubmit = React.useCallback(event => {
     event.preventDefault();
@@ -38,7 +36,7 @@ const Login: React.FC = () => {
         <h1>Login</h1>
         <form action="" onSubmit={handleSubmit}>
           <Input label="Usuário" type="text" name="username" {...username} />
-          <Input label="Senha" type="password" name="password" {...password} />
+          <Input label="Senha" type="password" name="password" />
           <Button>Entrar</Button>
         </form>
         <Link to="/signup">Cadastro</Link>

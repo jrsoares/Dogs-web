@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { ContainerInput, Label, Error, ContainerButton } from './styles';
+import { ContainerInput, Label, ContainerButton, Error } from './styles';
 
 type RefReturn =
   | string
@@ -30,7 +30,6 @@ export const Input: React.FC<InputProps> = ({
     <ContainerInput>
       <Label>{label}</Label>
       <input name={name} ref={register({ required })} />
-      <Error>Error</Error>
     </ContainerInput>
   );
 };

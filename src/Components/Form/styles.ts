@@ -30,12 +30,6 @@ export const Label = styled.label`
   padding-bottom: 0.5rem;
 `;
 
-export const Error = styled.p`
-  color: #f31;
-  font-size: 0.875rem;
-  margin-top: 0.25rem;
-`;
-
 export const ContainerButton = styled.button`
   font-size: 1rem;
   font-family: Helvetica, Arial, sans-serif;
@@ -59,4 +53,10 @@ export const ContainerButton = styled.button`
     opacity: 0.5;
     cursor: wait;
   }
+`;
+
+export const Error = styled.p`
+  color: #f31;
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
 `;

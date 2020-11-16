@@ -1,17 +1,21 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { useForm } from 'react-hook-form';
 import Header from '../../Components/Header';
 import Footer from '../../Components/Footer';
 import { Container } from './styles';
 
-import Input from '../../Components/Input';
-import Button from '../../Components/Button';
-import useForm from '../../Hooks/useForm';
+import { Input, Button } from '../../Components/Form';
+
+interface FormValues {
+  username: string;
+  password: string;
+}
 
 const Login: React.FC = () => {
-  const username = useForm('email');
+  const { register, handleSubmit } = useForm<FormValues>();
 
-  const handleSubmit = React.useCallback(event => {
+  const onSubmit = React.useCallback(event => {
     event.preventDefault();
     fetch('https://dogsapi.origamid.dev/json/jwt-auth/v1/token', {
       method: 'POST',
@@ -34,10 +38,10 @@ const Login: React.FC = () => {
       <Header />
       <Container>
         <h1>Login</h1>
-        <form action="" onSubmit={handleSubmit}>
-          <Input label="Usuário" type="text" name="username" {...username} />
-          <Input label="Senha" type="password" name="password" />
-          <Button>Entrar</Button>
+        <form action="" onSubmit={handleSubmit(onSubmit)}>
+          <Input label="Usuário" name="username" register={register} required />
+          <Input label="Senha" name="password" register={register} required />
+          <Button type="submit">Entrar</Button>
         </form>
         <Link to="/signup">Cadastro</Link>
       </Container>

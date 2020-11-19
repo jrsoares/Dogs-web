@@ -1,46 +1,51 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
 import Header from '../../Components/Header';
 import Footer from '../../Components/Footer';
-import { Container } from './styles';
+import { Container, Error } from './styles';
+import Input from '../../Components/Input';
+import Button from '../../Components/Button';
 
-import { Input, Button } from '../../Components/Form';
-
-interface FormValues {
+interface FormInputs {
   username: string;
   password: string;
 }
+const schema = yup.object().shape({
+  username: yup.string().required(),
+  password: yup.string().required(),
+});
 
 const Login: React.FC = () => {
-  const { register, handleSubmit } = useForm<FormValues>();
+  const { register, handleSubmit, errors, control } = useForm<FormInputs>({
+    resolver: yupResolver(schema),
+  });
 
-  const onSubmit = React.useCallback(event => {
-    event.preventDefault();
-    fetch('https://dogsapi.origamid.dev/json/jwt-auth/v1/token', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      // body: JSON.stringify(),
-    })
-      .then(response => {
-        console.log(response);
-        return response.json();
-      })
-      .then(json => {
-        console.log(json);
-      });
-  }, []);
+  const onSubmit = (data: FormInputs) => console.log(data);
 
   return (
     <>
       <Header />
       <Container>
         <h1>Login</h1>
-        <form action="" onSubmit={handleSubmit(onSubmit)}>
-          <Input label="Usuário" name="username" register={register} required />
-          <Input label="Senha" name="password" register={register} required />
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <Input
+            type="text"
+            label="Usuário"
+            name="username"
+            register={register}
+          />
+          <Error>{errors.username?.message}</Error>
+          <Input
+            type="password"
+            label="Senha"
+            name="password"
+            register={register}
+          />
+          <Error>{errors.password?.message}</Error>
+
           <Button type="submit">Entrar</Button>
         </form>
         <Link to="/signup">Cadastro</Link>

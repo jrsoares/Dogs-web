@@ -3,13 +3,12 @@ import { Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-import { report } from 'process';
 import Header from '../../Components/Header';
 import Footer from '../../Components/Footer';
 import { Container, Error } from './styles';
 import Input from '../../Components/Input';
 import Button from '../../Components/Button';
-import api from '../../Services/api';
+import { AuthContext } from '../../Context/Auth';
 
 interface FormInputs {
   username: string;
@@ -25,27 +24,13 @@ const Login: React.FC = () => {
     resolver: yupResolver(schema),
   });
 
-  React.useEffect(() => {
-    const fetchData = async () => {
-      const token = localStorage.getItem('@Dog:token');
-      const result = await api.get('/api/user', {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      console.log(result.data);
-    };
-    fetchData();
-  }, []);
+  const { signIn } = React.useContext(AuthContext);
 
   const onSubmit = React.useCallback(
-    async ({ username, password }: FormInputs) => {
-      const response = await api.post('jwt-auth/v1/token', {
-        username,
-        password,
-      });
-      const { token } = response.data;
-      localStorage.setItem('@Dog:token', token);
+    (data: FormInputs) => {
+      signIn({ username: data.username, password: data.password });
     },
-    [],
+    [signIn],
   );
 
   return (

@@ -3,6 +3,7 @@ import api from '../Services/api';
 
 type AuthContextData = {
   signIn(credentials: SignInCredentials): Promise<void>;
+  user: string | null;
 };
 
 type SignInCredentials = {
@@ -36,10 +37,9 @@ export const AuthProvider: React.FC = ({ children }) => {
         nome,
         username,
       });
-      return data;
     }
     return {};
-  }, [data]);
+  }, []);
 
   const signIn = React.useCallback(
     async ({ username, password }) => {
@@ -55,6 +55,8 @@ export const AuthProvider: React.FC = ({ children }) => {
   );
 
   return (
-    <AuthContext.Provider value={{ signIn }}>{children}</AuthContext.Provider>
+    <AuthContext.Provider value={{ signIn, user: data.nome }}>
+      {children}
+    </AuthContext.Provider>
   );
 };

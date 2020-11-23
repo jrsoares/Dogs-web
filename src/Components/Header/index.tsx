@@ -5,16 +5,25 @@ import { ReactComponent as Usuario } from '../../Assets/usuario.svg';
 import { AuthContext } from '../../Context/Auth';
 
 const Header: React.FC = () => {
-  const { user } = React.useContext(AuthContext);
+  const { data } = React.useContext(AuthContext);
   return (
     <Container>
       <nav>
         <Logo to="/" aria-label="Dogs - Home">
           <Dogs />
         </Logo>
-        <Login to="/login">
-          <Usuario style={{ marginLeft: '0.5rem' }} />
-        </Login>
+        {console.log(data)}
+        {data ? (
+          <Login to="/conta">
+            {data.nome}
+            <Usuario style={{ marginLeft: '0.5rem' }} />
+          </Login>
+        ) : (
+          <Login to="/login">
+            Login / Criar
+            <Usuario style={{ marginLeft: '0.5rem' }} />
+          </Login>
+        )}
       </nav>
     </Container>
   );

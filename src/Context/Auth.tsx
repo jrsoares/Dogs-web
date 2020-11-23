@@ -3,7 +3,7 @@ import api from '../Services/api';
 
 type AuthContextData = {
   signIn(credentials: SignInCredentials): Promise<void>;
-  user: string | null;
+  data: AuthState;
 };
 
 type SignInCredentials = {
@@ -24,21 +24,19 @@ export const AuthContext = React.createContext<AuthContextData>(
 
 export const AuthProvider: React.FC = ({ children }) => {
   const [data, setData] = React.useState<AuthState>({} as AuthState);
-  const getUser = React.useCallback(async () => {
-    const token = localStorage.getItem('@Dog:token');
+  const [login, setLogin] = React.useState<boolean>();
+  const [error, setError] = React.useState(null);
+  const [loading, setLoading] = React.useState(false);
+
+  const getUser = React.useCallback(async token => {
     if (token) {
       const response = await api.get('/api/user', {
         headers: { Authorization: `Bearer ${token}` },
       });
-      const { email, id, nome, username } = response.data;
-      setData({
-        email,
-        id,
-        nome,
-        username,
-      });
+      setData(response.data);
+      setLogin(true);
     }
-    return {};
+    return null;
   }, []);
 
   const signIn = React.useCallback(
@@ -49,13 +47,40 @@ export const AuthProvider: React.FC = ({ children }) => {
       });
       const { token } = response.data;
       localStorage.setItem('@Dog:token', token);
-      getUser();
+      const tokenStorage = localStorage.getItem('@Dog:token');
+      getUser(tokenStorage);
     },
     [getUser],
   );
 
+  React.useEffect(() => {
+    const autoLogin = async () => {
+      const token = localStorage.getItem('@Dog:token');
+      if (token) {
+        try {
+          setError(null);
+          setLoading(true);
+          const response = await api.post(
+            'jwt-auth/v1/token/validate',
+            {},
+            {
+              headers: { Authorization: `Bearer ${token}` },
+            },
+          );
+          if (!response.data) throw new Error('Token Inválido');
+          getUser(token);
+        } catch (err) {
+          console.log(err);
+        } finally {
+          setLoading(false);
+        }
+      }
+    };
+    autoLogin();
+  }, [getUser]);
+
   return (
-    <AuthContext.Provider value={{ signIn, user: data.nome }}>
+    <AuthContext.Provider value={{ signIn, data }}>
       {children}
     </AuthContext.Provider>
   );

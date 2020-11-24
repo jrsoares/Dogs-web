@@ -2,6 +2,8 @@ import { createGlobalStyle } from 'styled-components';
 
 export default createGlobalStyle`
 
+@import url('https://fonts.googleapis.com/css2?family=Spectral:wght@700&display=swap');
+
 * {
   box-sizing: border-box;
 }
@@ -10,7 +12,9 @@ body {
   padding-top: 4rem;
   margin: 0px;
   color: #333;
-  font-family: Helvetica, Arial, sans-serif;
+  --type-first: Helvetica, Arial, sans-serif;
+  --type-second: 'Spectral', Georgia;
+  font-family: var(--type-first)
 }
 
 h1,
@@ -47,6 +51,7 @@ button {
 
 a {
   text-decoration: none;
+  color: #333
 }
 
 #root {
@@ -54,5 +59,4 @@ a {
   padding: 0 1rem;
   margin: 0 auto;
 }
-
 `;

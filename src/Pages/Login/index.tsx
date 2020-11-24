@@ -5,7 +5,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import Header from '../../Components/Header';
 import Footer from '../../Components/Footer';
-import { Container, Error } from './styles';
+import { Container, Form, Error, Forgot, Signin, Signup } from './styles';
 import Input from '../../Components/Input';
 import Button from '../../Components/Button';
 import { AuthContext } from '../../Context/Auth';
@@ -38,7 +38,7 @@ const Login: React.FC = () => {
       <Header />
       <Container>
         <h1>Login</h1>
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <Form onSubmit={handleSubmit(onSubmit)}>
           <Input
             type="text"
             label="Usuário"
@@ -55,8 +55,15 @@ const Login: React.FC = () => {
           <Error>{errors.password?.message}</Error>
 
           <Button type="submit">Entrar</Button>
-        </form>
-        <Link to="/signup">Cadastro</Link>
+        </Form>
+
+        <Forgot to="/forgotPassword">Perdeu a senha?</Forgot>
+
+        <Signin>
+          <h2>Cadastre-se</h2>
+          <p>Ainda não possui conta?</p>
+        </Signin>
+        <Signup to="/signup">Cadastre-se</Signup>
       </Container>
       <Footer />
     </>

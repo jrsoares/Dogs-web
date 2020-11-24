@@ -1,5 +1,6 @@
 import styled, { keyframes } from 'styled-components';
 import { Link } from 'react-router-dom';
+import LoginBackground from '../../Assets/login.jpg';
 
 const animatedLeft = keyframes`
 to {
@@ -9,6 +10,18 @@ to {
 `;
 
 export const Container = styled.section`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 100vh;
+  gap: 2rem;
+
+  :before {
+    display: block;
+    content: '';
+    background: url(${LoginBackground}) no-repeat center center;
+    background-size: cover;
+  }
+
   h1 {
     margin-top: 0.5rem;
     margin-bottom: 0.5rem;
@@ -36,6 +49,15 @@ export const Container = styled.section`
     left: -5px;
     border-radius: 0.2rem;
     z-index: -1;
+  }
+
+  @media (max-width: 40rem) {
+    & {
+      grid-template-columns: 1fr;
+    }
+    &:before {
+      display: none;
+    }
   }
 `;
 export const Form = styled.form`
@@ -104,4 +126,9 @@ export const Signup = styled(Link)`
     outline: none;
     box-shadow: 0 0 0 3px #fea, 0 0 0 4px #fb1;
   }
+`;
+
+export const Content = styled.div`
+  max-width: 30rem;
+  padding: 1rem;
 `;

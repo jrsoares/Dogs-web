@@ -2,6 +2,9 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 export const Container = styled.header`
+  max-width: 50rem;
+  padding: 0 1rem;
+  margin: 0 auto;
   box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.1);
   background: #fff;
   width: 100%;

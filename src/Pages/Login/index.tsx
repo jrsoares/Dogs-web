@@ -5,7 +5,15 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import Header from '../../Components/Header';
 import Footer from '../../Components/Footer';
-import { Container, Form, Error, Forgot, Signin, Signup } from './styles';
+import {
+  Container,
+  Form,
+  Error,
+  Forgot,
+  Signin,
+  Signup,
+  Content,
+} from './styles';
 import Input from '../../Components/Input';
 import Button from '../../Components/Button';
 import { AuthContext } from '../../Context/Auth';
@@ -37,33 +45,35 @@ const Login: React.FC = () => {
     <>
       <Header />
       <Container>
-        <h1>Login</h1>
-        <Form onSubmit={handleSubmit(onSubmit)}>
-          <Input
-            type="text"
-            label="Usuário"
-            name="username"
-            register={register}
-          />
-          <Error>{errors.username?.message}</Error>
-          <Input
-            type="password"
-            label="Senha"
-            name="password"
-            register={register}
-          />
-          <Error>{errors.password?.message}</Error>
+        <Content>
+          <h1>Login</h1>
+          <Form onSubmit={handleSubmit(onSubmit)}>
+            <Input
+              type="text"
+              label="Usuário"
+              name="username"
+              register={register}
+            />
+            <Error>{errors.username?.message}</Error>
+            <Input
+              type="password"
+              label="Senha"
+              name="password"
+              register={register}
+            />
+            <Error>{errors.password?.message}</Error>
 
-          <Button type="submit">Entrar</Button>
-        </Form>
+            <Button type="submit">Entrar</Button>
+          </Form>
 
-        <Forgot to="/forgotPassword">Perdeu a senha?</Forgot>
+          <Forgot to="/forgotPassword">Perdeu a senha?</Forgot>
 
-        <Signin>
-          <h2>Cadastre-se</h2>
-          <p>Ainda não possui conta?</p>
-        </Signin>
-        <Signup to="/signup">Cadastre-se</Signup>
+          <Signin>
+            <h2>Cadastre-se</h2>
+            <p>Ainda não possui conta?</p>
+          </Signin>
+          <Signup to="/signup">Cadastre-se</Signup>
+        </Content>
       </Container>
       <Footer />
     </>

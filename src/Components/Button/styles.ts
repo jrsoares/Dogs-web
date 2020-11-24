@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 export const Container = styled.button`
   font-size: 1rem;
-  font-family: Helvetica, Arial, sans-serif;
+  font-family: var(--type-primary);
   cursor: pointer;
   border: none;
   border-radius: 0.4rem;

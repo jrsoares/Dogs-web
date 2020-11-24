@@ -12,10 +12,10 @@ const Header: React.FC = () => {
         <Logo to="/" aria-label="Dogs - Home">
           <Dogs />
         </Logo>
-        {console.log(data)}
-        {data ? (
+
+        {data.user ? (
           <Login to="/conta">
-            {data.nome}
+            {data.user.nome}
             <Usuario style={{ marginLeft: '0.5rem' }} />
           </Login>
         ) : (

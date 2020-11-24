@@ -4,6 +4,7 @@ import api from '../Services/api';
 type AuthContextData = {
   signIn(credentials: SignInCredentials): Promise<void>;
   data: AuthState;
+  signOut(): void;
 };
 
 type SignInCredentials = {
@@ -12,10 +13,10 @@ type SignInCredentials = {
 };
 
 type AuthState = {
-  email: string;
-  id: number;
-  nome: string;
-  username: string;
+  token: string;
+  user: {
+    nome: string;
+  };
 };
 
 export const AuthContext = React.createContext<AuthContextData>(
@@ -23,64 +24,40 @@ export const AuthContext = React.createContext<AuthContextData>(
 );
 
 export const AuthProvider: React.FC = ({ children }) => {
-  const [data, setData] = React.useState<AuthState>({} as AuthState);
-  const [login, setLogin] = React.useState<boolean>();
-  const [error, setError] = React.useState(null);
-  const [loading, setLoading] = React.useState(false);
+  const [data, setData] = React.useState<AuthState>(() => {
+    const token = localStorage.getItem('@Dog:token');
+    const user = localStorage.getItem('@Dog:user');
 
-  const getUser = React.useCallback(async token => {
-    if (token) {
-      const response = await api.get('/api/user', {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      setData(response.data);
-      setLogin(true);
+    if (token && user) {
+      return { token, user: JSON.parse(user) };
     }
-    return null;
+    return {} as AuthState;
+  });
+
+  const signIn = React.useCallback(async ({ username, password }) => {
+    const response = await api.post('jwt-auth/v1/token', {
+      username,
+      password,
+    });
+    const { token } = response.data;
+    localStorage.setItem('@Dog:token', token);
+
+    const localToken = localStorage.getItem('@Dog:token');
+    const user = await api.get('/api/user', {
+      headers: { Authorization: `Bearer ${localToken}` },
+    });
+    localStorage.setItem('@Dog:user', JSON.stringify(user.data));
+    setData({ token: token.data, user: user.data });
   }, []);
 
-  const signIn = React.useCallback(
-    async ({ username, password }) => {
-      const response = await api.post('jwt-auth/v1/token', {
-        username,
-        password,
-      });
-      const { token } = response.data;
-      localStorage.setItem('@Dog:token', token);
-      const tokenStorage = localStorage.getItem('@Dog:token');
-      getUser(tokenStorage);
-    },
-    [getUser],
-  );
-
-  React.useEffect(() => {
-    const autoLogin = async () => {
-      const token = localStorage.getItem('@Dog:token');
-      if (token) {
-        try {
-          setError(null);
-          setLoading(true);
-          const response = await api.post(
-            'jwt-auth/v1/token/validate',
-            {},
-            {
-              headers: { Authorization: `Bearer ${token}` },
-            },
-          );
-          if (!response.data) throw new Error('Token Inválido');
-          getUser(token);
-        } catch (err) {
-          console.log(err);
-        } finally {
-          setLoading(false);
-        }
-      }
-    };
-    autoLogin();
-  }, [getUser]);
+  const signOut = React.useCallback(() => {
+    localStorage.removeItem('@Dog:token');
+    localStorage.removeItem('@Dog:user');
+    setData({} as AuthState);
+  }, []);
 
   return (
-    <AuthContext.Provider value={{ signIn, data }}>
+    <AuthContext.Provider value={{ signIn, data, signOut }}>
       {children}
     </AuthContext.Provider>
   );

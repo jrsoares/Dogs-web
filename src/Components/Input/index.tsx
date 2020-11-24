@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { ContainerInput, Label, Error } from './styles';
+import { ContainerInput, Label } from './styles';
 
 type RefReturn =
   | string

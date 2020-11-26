@@ -14,9 +14,8 @@ const Header: React.FC = () => {
         </Logo>
 
         {data.user ? (
-          <Login to="/conta">
+          <Login to="/login">
             {data.user.nome}
-
             <button type="button" onClick={signOut}>
               Sair
             </button>

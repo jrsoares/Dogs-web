@@ -40,7 +40,11 @@ const Login: React.FC = () => {
       try {
         await signIn({ username: data.username, password: data.password });
       } catch (err) {
-        addToast();
+        addToast({
+          type: 'error',
+          title: 'Erro na autenticação',
+          description: 'Ocorreu um erro ao fazer login, cheque as credenciais',
+        });
       }
     },
     [signIn, addToast],

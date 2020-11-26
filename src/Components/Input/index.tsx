@@ -13,13 +13,20 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   register: ({ required }: { required?: boolean }) => RefReturn;
   label: string;
   name: string;
+  type: string;
 }
 
-const Input: React.FC<InputProps> = ({ label, name, register, required }) => {
+const Input: React.FC<InputProps> = ({
+  label,
+  name,
+  type,
+  register,
+  required,
+}) => {
   return (
     <ContainerInput>
       <Label id={label}>{label}</Label>
-      <input name={name} ref={register({ required })} />
+      <input name={name} type={type} ref={register({ required })} />
     </ContainerInput>
   );
 };

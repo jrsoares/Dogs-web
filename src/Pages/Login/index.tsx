@@ -16,6 +16,7 @@ import {
 import Input from '../../Components/Input';
 import Button from '../../Components/Button';
 import { AuthContext } from '../../Context/Auth';
+import { ToastContext } from '../../Context/Toast';
 
 interface FormInputs {
   username: string;
@@ -32,12 +33,17 @@ const Login: React.FC = () => {
   });
 
   const { signIn } = React.useContext(AuthContext);
+  const { addToast } = React.useContext(ToastContext);
 
   const onSubmit = React.useCallback(
-    (data: FormInputs) => {
-      signIn({ username: data.username, password: data.password });
+    async (data: FormInputs) => {
+      try {
+        await signIn({ username: data.username, password: data.password });
+      } catch (err) {
+        addToast();
+      }
     },
-    [signIn],
+    [signIn, addToast],
   );
 
   return (

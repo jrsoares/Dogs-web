@@ -5,8 +5,10 @@ import * as yup from 'yup';
 import Header from '../../Components/Header';
 import Footer from '../../Components/Footer';
 import { Container, Form, Error, Forgot, Content } from './styles';
+import api from '../../Services/api';
 import Input from '../../Components/Input';
 import Button from '../../Components/Button';
+import { AuthContext } from '../../Context/Auth';
 
 interface FormInputs {
   username: string;
@@ -26,10 +28,20 @@ const Signup: React.FC = () => {
   const { register, handleSubmit, errors } = useForm<FormInputs>({
     resolver: yupResolver(schema),
   });
+  const { signIn } = React.useContext(AuthContext);
 
-  const onSubmit = React.useCallback(async (data: FormInputs) => {
-    return <div />;
-  }, []);
+  const onSubmit = React.useCallback(
+    async (data: FormInputs) => {
+      const { username, email, password } = data;
+      const response = await api.post('api/user', {
+        username,
+        email,
+        password,
+      });
+      if (response) signIn({ username, password });
+    },
+    [signIn],
+  );
 
   return (
     <>

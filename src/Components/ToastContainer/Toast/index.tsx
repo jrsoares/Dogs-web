@@ -10,6 +10,8 @@ import { ToastMessage, ToastContext } from '../../../Context/Toast';
 
 type ToastProps = {
   message: ToastMessage;
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  style: object;
 };
 
 const icons = {
@@ -18,20 +20,25 @@ const icons = {
   success: <FiCheckCircle size={24} />,
 };
 
-const Toast: React.FC<ToastProps> = ({ message }) => {
+const Toast: React.FC<ToastProps> = ({ message, style }) => {
   const { removeToast } = React.useContext(ToastContext);
 
   useEffect(() => {
     const timer = setTimeout(() => {
       removeToast(message.id);
     }, 3000);
+    // executa quando o componente é removido
     return () => {
       clearTimeout(timer);
     };
   }, [message.id, removeToast]);
 
   return (
-    <Container type={message.type} hasDescription={!!message.description}>
+    <Container
+      type={message.type}
+      style={style}
+      hasDescription={!!message.description}
+    >
       {icons[message.type || 'info']}
       <div>
         <strong>{message.title}</strong>

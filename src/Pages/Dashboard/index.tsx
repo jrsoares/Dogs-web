@@ -1,11 +1,15 @@
 import React from 'react';
 import Header from '../../Components/Header';
+import UserNav from '../../Components/UserNav';
+import { Container } from './styles';
 
 const Dashboard: React.FC = () => {
   return (
     <>
       <Header />
-      <h1>Dashboard</h1>
+      <Container>
+        <UserNav />
+      </Container>
     </>
   );
 };

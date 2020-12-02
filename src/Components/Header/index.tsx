@@ -5,7 +5,7 @@ import { ReactComponent as Usuario } from '../../Assets/usuario.svg';
 import { AuthContext } from '../../Context/Auth';
 
 const Header: React.FC = () => {
-  const { data, signOut } = React.useContext(AuthContext);
+  const { data } = React.useContext(AuthContext);
   return (
     <Container>
       <nav>
@@ -16,9 +16,6 @@ const Header: React.FC = () => {
         {data.user ? (
           <Login to="/login">
             {data.user.nome}
-            <button type="button" onClick={signOut}>
-              Sair
-            </button>
             <Usuario style={{ marginLeft: '0.5rem' }} />
           </Login>
         ) : (

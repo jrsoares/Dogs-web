@@ -1,6 +1,12 @@
 import styled from 'styled-components';
 
 export const Container = styled.div`
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  border-bottom: 2rem;
+  margin-top: 1rem;
+  position: relative;
   max-width: 50rem;
   padding: 0 1rem;
   margin: 0 auto;

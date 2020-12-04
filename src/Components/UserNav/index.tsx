@@ -18,7 +18,11 @@ const UserNav: React.FC = () => {
   return (
     <>
       {mobile && (
-        <ButtonMobile aria-label="Menu" onClick={() => setMobileMenu(false)} />
+        <ButtonMobile
+          aria-label="Menu"
+          active={mobileMenu}
+          onClick={() => setMobileMenu(!mobileMenu)}
+        />
       )}
       <Container>
         <NavLink to="/dashboard" exact activeClassName="active">

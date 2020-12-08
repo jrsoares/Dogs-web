@@ -19,8 +19,9 @@ const UserNav: React.FC = () => {
     <>
       {mobile && (
         <ButtonMobile
+          active={!!mobileMenu}
+          className="mobileButtonActive"
           aria-label="Menu"
-          active={mobileMenu}
           onClick={() => setMobileMenu(!mobileMenu)}
         />
       )}

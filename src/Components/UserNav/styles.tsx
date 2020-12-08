@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 export const Container = styled.nav`
   display: grid;
@@ -40,7 +40,11 @@ export const Container = styled.nav`
   }
 `;
 
-export const ButtonMobile = styled.button`
+type ButtonProps = {
+  active: boolean;
+};
+
+export const ButtonMobile = styled.button<ButtonProps>`
   background: #eee;
   border-radius: 0.2rem;
   height: 40px;
@@ -64,6 +68,7 @@ export const ButtonMobile = styled.button`
   }
 
   &:focus,
+  .mobileButtonActive,
   &:hover {
     outline: none;
     background: white;
@@ -72,10 +77,14 @@ export const ButtonMobile = styled.button`
     color: #fb1;
   }
 
-  :active::after {
-    transform: rotate(90deg);
-    width: 4px;
-    height: 4px;
-    box-shadow: 0 8px currentColor, 0 -8px currentColor;
-  }
+  ${props =>
+    props.active &&
+    css`
+      .mobileButtonActive:after {
+        transform: rotate(90deg);
+        width: 4px;
+        height: 4px;
+        box-shadow: 0 8px currentColor, 0 -8px currentColor;
+      }
+    `}
 `;

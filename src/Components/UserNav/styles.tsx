@@ -40,11 +40,7 @@ export const Container = styled.nav`
   }
 `;
 
-type ButtonProps = {
-  active: boolean;
-};
-
-export const ButtonMobile = styled.button<ButtonProps>`
+export const ButtonMobile = styled.button`
   background: #eee;
   border-radius: 0.2rem;
   height: 40px;
@@ -68,7 +64,6 @@ export const ButtonMobile = styled.button<ButtonProps>`
   }
 
   &:focus,
-  .mobileButtonActive,
   &:hover {
     outline: none;
     background: white;
@@ -76,15 +71,4 @@ export const ButtonMobile = styled.button<ButtonProps>`
     border-color: #fb1;
     color: #fb1;
   }
-
-  ${props =>
-    props.active &&
-    css`
-      .mobileButtonActive:after {
-        transform: rotate(90deg);
-        width: 4px;
-        height: 4px;
-        box-shadow: 0 8px currentColor, 0 -8px currentColor;
-      }
-    `}
 `;
